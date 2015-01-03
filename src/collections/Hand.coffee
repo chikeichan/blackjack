@@ -10,10 +10,7 @@ class window.Hand extends Backbone.Collection
       if @scores()[0] is 21
         console.log "21!!"
       else if @scores()[0] > 21
-        console.log "Busted"
-        `
-        this.trigger('Busted')
-        `
+       @trigger('Busted')
       card
 
   hasAce: -> @reduce (memo, card) ->
@@ -32,3 +29,13 @@ class window.Hand extends Backbone.Collection
     if @minScore() + 10 * @hasAce() < 21 then [@minScore() + 10 * @hasAce()]
     else [@minScore()]
 
+  stand: (playerScore) ->
+    @models[0].flip()
+    @finish(playerScore)
+
+  finish:(playerScore) ->
+    if @scores()[0] < 17 or @scores()[0] < playerScore
+      @hit()
+      @finish(playerScore)
+    else if @scores()[0] > 21 then console.log 'busted'
+    
