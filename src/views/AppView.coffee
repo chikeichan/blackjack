@@ -3,7 +3,7 @@ class window.AppView extends Backbone.View
     <button class="hit-button">Hit</button>
     <button class="stand-button">Stand</button>
     <button class="double-button">Double</button>
-    <button class="split" disabled="true">Split</button>
+    <button class="split-button" disabled="true">Split</button>
     <button class="new-button" disabled="true">New Game</button>
     <input class="wager" type="number" disabled="true"> 
     <h2>Chips: $<%= chips %></h2>
@@ -28,6 +28,9 @@ class window.AppView extends Backbone.View
     'click .new-button': -> 
       @model.reDeal()
       @initialize()
+    'click .split-button': -> 
+      @model.split()
+      @initialize()
     'blur .wager': -> 
       @model.set 'wager', $('.wager').val() or 5
       console.log @model.get 'wager'
@@ -40,6 +43,10 @@ class window.AppView extends Backbone.View
       this.$el.find('.hit-button').attr('disabled','true');
       this.$el.find('.new-button').removeAttr('disabled');
       this.$el.find('.wager').removeAttr('disabled');
+    }, this)
+
+    this.model.on('split',function(card){
+      this.$el.find('.split-button').removeAttr('disabled');
     }, this)
     `
 

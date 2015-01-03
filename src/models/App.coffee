@@ -12,6 +12,9 @@ class window.App extends Backbone.Model
     	@.trigger 'Busted'
     	@lose()
 
+    @get('playerHand').on 'split', =>
+      @.trigger 'split'
+
     @get('dealerHand').on 'Busted', =>
     	@.trigger 'Busted'
     	@win()
@@ -31,6 +34,13 @@ class window.App extends Backbone.Model
 
   win: ->
   	@set 'chips', @get('chips')+@get('wager')
+
+  split: ->
+    a = @get('playerHand').models.pop()
+    b = @get('playerHand').models.pop()
+    @get('playerHand').add([a],[b])
+    @trigger 'split', @get 'playerHand2'
+
 
   reDeal:
   	`
