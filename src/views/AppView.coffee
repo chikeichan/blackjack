@@ -1,15 +1,25 @@
 class window.AppView extends Backbone.View
   template: _.template '
-    <button class="hit-button">Hit</button> <button class="stand-button">Stand</button>
+    <button class="hit-button">Hit</button>
+    <button class="stand-button">Stand</button>
+    <button class="double-button">Double</button>
+    <button class="split" disabled="true">Split</button>
     <button class="new-button" disabled="true">New Game</button>
     <input class="wager" type="number" disabled="true"> 
     <h2>Chips: $<%= chips %></h2>
+    <h2 id="wager">Wagers: $<%= wager %></h2>
     <div class="player-hand-container"></div>
     <div class="dealer-hand-container"></div>
   '
 
   events:
     'click .hit-button': -> @model.get('playerHand').hit()
+    'click .double-button': -> 
+      @model.set 'wager', @model.get('wager')*2
+      @initialize()
+      @model.get('playerHand').hit()
+      @$el.find('.stand-button').trigger('click')
+      @model.set 'wager', @model.get('wager')/2
     'click .stand-button': -> 
       @model.get('dealerHand').stand(@model.get('playerHand').scores()[0])
       @$el.find('.stand-button').attr('disabled','true');
