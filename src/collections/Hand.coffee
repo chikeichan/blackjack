@@ -3,6 +3,16 @@ class window.Hand extends Backbone.Collection
 
   initialize: (array, @deck, @isDealer) ->
 
+  redeal: ->
+    if @isDealer
+      @reset();
+      @push(@deck.pop().flip())
+      @push(@deck.pop())
+    else
+    @reset();
+      @push(@deck.pop())
+      @push(@deck.pop())
+
   hit: ->
     if @scores()[0] < 21
       card = @deck.pop()
@@ -43,6 +53,3 @@ class window.Hand extends Backbone.Collection
       @trigger "push"
     else 
       @trigger "dealerWin"
-    
-  newHand: ->
-    @reset()

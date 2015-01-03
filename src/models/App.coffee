@@ -15,7 +15,7 @@ class window.App extends Backbone.Model
   reDeal:
   	`
   	function(){
-  		this.set('playerHand', this.get('deck').dealPlayer());
-  		this.set('dealerHand', this.get('deck').dealDealer());
+  		this.get('playerHand').redeal();
+  		this.get('dealerHand').redeal();
   	}
   	`

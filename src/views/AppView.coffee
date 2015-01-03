@@ -14,12 +14,8 @@ class window.AppView extends Backbone.View
       @$el.find('.hit-button').attr('disabled','true');
       #@$el.find('.new-button').removeAttr('disabled');
     'click .new-button': -> 
-      @model.get('playerHand').newHand()
-      @model.get('dealerHand').newHand()
       @model.reDeal()
-      @$el.find('.stand-button').removeAttr('disabled');
-      @$el.find('.hit-button').removeAttr('disabled');
-      @$el.find('.new-button').attr('disabled','true');
+      @initialize()
 
 
   initialize: ->
