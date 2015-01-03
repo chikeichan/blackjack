@@ -12,13 +12,16 @@ class window.AppView extends Backbone.View
       @model.get('dealerHand').stand(@model.get('playerHand').scores()[0])
       @$el.find('.stand-button').attr('disabled','true');
       @$el.find('.hit-button').attr('disabled','true');
-      @$el.find('.new-button').removeAttr('disabled');
+      #@$el.find('.new-button').removeAttr('disabled');
 
   initialize: ->
-    @model.on 'Busted', ->
-      $('.new-button').removeAttr('disabled'),
-
-
+    `
+    this.model.on('Busted',function(){
+      this.$el.find('.stand-button').attr('disabled','true');
+      this.$el.find('.hit-button').attr('disabled','true');
+      this.$el.find('.new-button').removeAttr('disabled');
+    }, this)
+    `
     @render()
 
   render: ->

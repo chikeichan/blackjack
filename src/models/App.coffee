@@ -7,4 +7,9 @@ class window.App extends Backbone.Model
     @set 'dealerHand', deck.dealDealer()
 
     @get('playerHand').on 'Busted', => @.trigger 'Busted'
+    @get('dealerHand').on 'Busted', => @.trigger 'Busted'
+
+    @get('dealerHand').on 'dealerWin', => console.log 'Dealer Win'
+    @get('dealerHand').on 'dealerLose', => console.log 'Dealer Lose'
+    @get('dealerHand').on 'push', => console.log 'Push'
 

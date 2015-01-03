@@ -8,9 +8,9 @@ class window.Hand extends Backbone.Collection
       card = @deck.pop()
       @add(card)
       if @scores()[0] is 21
-        console.log "21!!"
+        @trigger('21')
       else if @scores()[0] > 21
-       @trigger('Busted')
+        @trigger('Busted')
       card
 
   hasAce: -> @reduce (memo, card) ->
@@ -26,7 +26,7 @@ class window.Hand extends Backbone.Collection
     # Usually, that array contains one element. That is the only score.
     # when there is an ace, it offers you two scores - the original score, and score + 10.
     # [@minScore(), @minScore() + 10 * @hasAce()]
-    if @minScore() + 10 * @hasAce() < 21 then [@minScore() + 10 * @hasAce()]
+    if @minScore() + 10 * @hasAce() <= 21 then [@minScore() + 10 * @hasAce()]
     else [@minScore()]
 
   stand: (playerScore) ->
@@ -37,5 +37,10 @@ class window.Hand extends Backbone.Collection
     if @scores()[0] < 17 or @scores()[0] < playerScore
       @hit()
       @finish(playerScore)
-    else if @scores()[0] > 21 then console.log 'busted'
+    else if @scores()[0] > 21
+      @trigger "dealerLose"
+    else if @scores()[0] is playerScore
+      @trigger "push"
+    else 
+      @trigger "dealerWin"
     
