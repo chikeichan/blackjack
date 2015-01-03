@@ -8,8 +8,14 @@ class window.App extends Backbone.Model
 
     @get('playerHand').on 'Busted', => @.trigger 'Busted'
     @get('dealerHand').on 'Busted', => @.trigger 'Busted'
+    @get('dealerHand').on 'dealerWin', => @trigger 'dealerWin'
+    @get('dealerHand').on 'dealerLose', => @trigger 'dealerLose'
+    @get('dealerHand').on 'push', => @trigger 'push'
 
-    @get('dealerHand').on 'dealerWin', => console.log 'Dealer Win'
-    @get('dealerHand').on 'dealerLose', => console.log 'Dealer Lose'
-    @get('dealerHand').on 'push', => console.log 'Push'
-
+  reDeal:
+  	`
+  	function(){
+  		this.set('playerHand', this.get('deck').dealPlayer());
+  		this.set('dealerHand', this.get('deck').dealDealer());
+  	}
+  	`

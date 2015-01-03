@@ -44,3 +44,5 @@ class window.Hand extends Backbone.Collection
     else 
       @trigger "dealerWin"
     
+  newHand: ->
+    @reset()

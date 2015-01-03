@@ -13,10 +13,18 @@ class window.AppView extends Backbone.View
       @$el.find('.stand-button').attr('disabled','true');
       @$el.find('.hit-button').attr('disabled','true');
       #@$el.find('.new-button').removeAttr('disabled');
+    'click .new-button': -> 
+      @model.get('playerHand').newHand()
+      @model.get('dealerHand').newHand()
+      @model.reDeal()
+      @$el.find('.stand-button').removeAttr('disabled');
+      @$el.find('.hit-button').removeAttr('disabled');
+      @$el.find('.new-button').attr('disabled','true');
+
 
   initialize: ->
     `
-    this.model.on('Busted',function(){
+    this.model.on('Busted dealerWin dealerLose push',function(){
       this.$el.find('.stand-button').attr('disabled','true');
       this.$el.find('.hit-button').attr('disabled','true');
       this.$el.find('.new-button').removeAttr('disabled');
@@ -27,6 +35,9 @@ class window.AppView extends Backbone.View
   render: ->
     @$el.children().detach()
     @$el.html @template()
-    @$('.player-hand-container').html new HandView(collection: @model.get 'playerHand').el
-    @$('.dealer-hand-container').html new HandView(collection: @model.get 'dealerHand').el
+    playerView = new HandView(collection: @model.get 'playerHand')
+    dealerView = new HandView(collection: @model.get 'dealerHand')
+
+    @$('.player-hand-container').html playerView.el
+    @$('.dealer-hand-container').html dealerView.el
 
