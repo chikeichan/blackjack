@@ -6,6 +6,7 @@ class window.App extends Backbone.Model
     @set 'playerHand', deck.dealPlayer()
     @set 'dealerHand', deck.dealDealer()
     @set 'chips', 5000
+    @set 'wager', 5
 
     @get('playerHand').on 'Busted', => 
     	@.trigger 'Busted'
@@ -26,10 +27,10 @@ class window.App extends Backbone.Model
     @get('dealerHand').on 'push', => @trigger 'push'
 
   lose: ->
-  	@set 'chips', @get('chips')-5
+  	@set 'chips', @get('chips')-@get('wager')
 
   win: ->
-  	@set 'chips', @get('chips')+5
+  	@set 'chips', @get('chips')+@get('wager')
 
   reDeal:
   	`

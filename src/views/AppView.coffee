@@ -2,6 +2,7 @@ class window.AppView extends Backbone.View
   template: _.template '
     <button class="hit-button">Hit</button> <button class="stand-button">Stand</button>
     <button class="new-button" disabled="true">New Game</button>
+    <input class="wager" type="number" disabled="true"> 
     <h2>Chips: $<%= chips %></h2>
     <div class="player-hand-container"></div>
     <div class="dealer-hand-container"></div>
@@ -17,6 +18,9 @@ class window.AppView extends Backbone.View
     'click .new-button': -> 
       @model.reDeal()
       @initialize()
+    'blur .wager': -> 
+      @model.set 'wager', $('.wager').val() or 5
+      console.log @model.get 'wager'
 
 
   initialize: ->
@@ -25,6 +29,7 @@ class window.AppView extends Backbone.View
       this.$el.find('.stand-button').attr('disabled','true');
       this.$el.find('.hit-button').attr('disabled','true');
       this.$el.find('.new-button').removeAttr('disabled');
+      this.$el.find('.wager').removeAttr('disabled');
     }, this)
     `
 
