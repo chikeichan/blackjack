@@ -5,17 +5,42 @@ class window.App extends Backbone.Model
     @set 'deck', deck = new Deck()
     @set 'playerHand', deck.dealPlayer()
     @set 'dealerHand', deck.dealDealer()
+    @set 'chips', 5000
 
-    @get('playerHand').on 'Busted', => @.trigger 'Busted'
-    @get('dealerHand').on 'Busted', => @.trigger 'Busted'
-    @get('dealerHand').on 'dealerWin', => @trigger 'dealerWin'
-    @get('dealerHand').on 'dealerLose', => @trigger 'dealerLose'
+    @get('playerHand').on 'Busted', => 
+    	@.trigger 'Busted'
+    	@lose()
+
+    @get('dealerHand').on 'Busted', =>
+    	@.trigger 'Busted'
+    	@win()
+
+    @get('dealerHand').on 'dealerWin', =>
+    	@trigger 'dealerWin'
+    	@lose()
+
+    @get('dealerHand').on 'dealerLose', =>
+    	@trigger 'dealerLose'
+    	@win()
+
     @get('dealerHand').on 'push', => @trigger 'push'
+
+  lose: ->
+  	@set 'chips', @get('chips')-5
+
+  win: ->
+  	@set 'chips', @get('chips')+5
 
   reDeal:
   	`
   	function(){
-  		this.get('playerHand').redeal();
-  		this.get('dealerHand').redeal();
+  		if(this.get('deck').length > 30){
+	  		this.get('playerHand').redeal();
+	  		this.get('dealerHand').redeal();
+  		} else {
+  			this.get('deck').shuffle();
+  			this.get('playerHand').redeal();
+	  		this.get('dealerHand').redeal();
+  		}
   	}
   	`

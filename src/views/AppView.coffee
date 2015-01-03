@@ -2,6 +2,7 @@ class window.AppView extends Backbone.View
   template: _.template '
     <button class="hit-button">Hit</button> <button class="stand-button">Stand</button>
     <button class="new-button" disabled="true">New Game</button>
+    <h2>Chips: $<%= chips %></h2>
     <div class="player-hand-container"></div>
     <div class="dealer-hand-container"></div>
   '
@@ -26,11 +27,12 @@ class window.AppView extends Backbone.View
       this.$el.find('.new-button').removeAttr('disabled');
     }, this)
     `
+
     @render()
 
   render: ->
     @$el.children().detach()
-    @$el.html @template()
+    @$el.html @template(@model.attributes)
     playerView = new HandView(collection: @model.get 'playerHand')
     dealerView = new HandView(collection: @model.get 'dealerHand')
 
