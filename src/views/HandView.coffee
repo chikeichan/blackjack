@@ -6,6 +6,7 @@ class window.HandView extends Backbone.View
   initialize: ->
     @collection.on 'add remove change', => @render()
     @render()
+    @collection.on 'Busted', => @busted()
 
   render: ->
     @$el.children().detach()
@@ -14,3 +15,5 @@ class window.HandView extends Backbone.View
       new CardView(model: card).$el
     @$('.score').text @collection.scores()[0]
 
+  busted: ->
+    @$el.append('<p id="busted">Busted</p>')

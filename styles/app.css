@@ -14,3 +14,9 @@
 .hand {
   overflow: auto;
 }
+
+#busted {
+	color: red;
+	font-size: 50px;
+	position: absolute;
+}
